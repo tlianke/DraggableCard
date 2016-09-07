@@ -169,33 +169,33 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
         return;
     }
     
-//    if (direction == YSLDraggableDirectionRight) {
-//        UIView *v = [_removeViews firstObject];
-//        if (!v) { return; }
-//        v.transform = CGAffineTransformIdentity;
-//        [UIView animateWithDuration:0.55
-//                              delay:0.0
-//             usingSpringWithDamping:0.6
-//              initialSpringVelocity:0.0
-//                            options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
-//                         animations:^{
-//                             v.frame = _defaultFrame;
-//                         } completion:^(BOOL finished) {
-//                             [_removeViews removeObject:v];
-//                             [_currentViews insertObject:v atIndex:0];
-//                             UIView *rmView = [_currentViews lastObject];
-//                             [rmView removeFromSuperview];
-//                             [_currentViews removeLastObject];
-//                             
-//                             if (_currentIndex > 0) {
-//                                 _currentIndex --;
-//                                 _loadedIndex --;
-//                                 [weakself loadNextView];
-//                                 [weakself cardViewDefaultScale];
-//                             }
-//                         }];
-//        return;
-//    }
+    if (direction == YSLDraggableDirectionRight) {
+        UIView *v = [_removeViews firstObject];
+        if (!v) { return; }
+        v.transform = CGAffineTransformIdentity;
+        [UIView animateWithDuration:0.55
+                              delay:0.0
+             usingSpringWithDamping:0.6
+              initialSpringVelocity:0.0
+                            options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
+                         animations:^{
+                             v.frame = _defaultFrame;
+                         } completion:^(BOOL finished) {
+                             [_removeViews removeObject:v];
+                             [_currentViews insertObject:v atIndex:0];
+                             UIView *rmView = [_currentViews lastObject];
+                             [rmView removeFromSuperview];
+                             [_currentViews removeLastObject];
+                             
+                             if (_currentIndex > 0) {
+                                 _currentIndex --;
+                                 _loadedIndex --;
+                                 [weakself loadNextView];
+                                 [weakself cardViewDefaultScale];
+                             }
+                         }];
+        return;
+    }
     
     if (!undoHandler) {
         [_currentViews removeObject:view];
@@ -203,7 +203,7 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
         [self loadNextView];
     }
     
-    if (direction == YSLDraggableDirectionLeft || direction == YSLDraggableDirectionDown) {
+    if (direction == YSLDraggableDirectionLeft) {
         
         [UIView animateWithDuration:0.35
                               delay:0.0
@@ -225,7 +225,7 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
 //                                     view.transform = CGAffineTransformMakeRotation(direction * M_PI_4);
 //                                 }
 //                             }
-//                             
+//
 //                             if (direction == YSLDraggableDirectionDown) {
 //                                 view.center = CGPointMake(view.center.x, (weakself.frame.size.height * 1.5));
 //                             }
