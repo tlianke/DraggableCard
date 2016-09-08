@@ -1,9 +1,9 @@
 //
 //  AppDelegate.m
-//  YSLDraggableCardContainerDemo
+//  Crew-iOS
 //
-//  Created by yamaguchi on 2015/11/10.
-//  Copyright © 2015年 h.yamaguchi. All rights reserved.
+//  Created by tlian on 2016/09/08.
+//  Copyright © 2016年 tlian. All rights reserved.
 //
 
 #import "AppDelegate.h"

@@ -1,9 +1,9 @@
 //
-//  YSLDraggableCardContainer.m
+//  DraggableCardContainer.m
 //  Crew-iOS
 //
-//  Created by yamaguchi on 2015/10/22.
-//  Copyright © 2015年 h.yamaguchi. All rights reserved.
+//  Created by tlian on 2016/09/08.
+//  Copyright © 2016年 tlian. All rights reserved.
 //
 
 #import "YSLDraggableCardContainer.h"
@@ -172,27 +172,37 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
     if (direction == YSLDraggableDirectionRight) {
         UIView *v = [_removeViews firstObject];
         if (!v) { return; }
-        v.transform = CGAffineTransformIdentity;
+        [weakself addSubview:v];
         [UIView animateWithDuration:0.55
                               delay:0.0
              usingSpringWithDamping:0.6
               initialSpringVelocity:0.0
                             options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
                          animations:^{
-                             v.frame = _defaultFrame;
+                             v.transform = CGAffineTransformIdentity;
+                             v.center = CGPointMake(_defaultFrame.size.width/2, _defaultFrame.size.height/2);
+                             [v setFrame:_defaultFrame];
+                             
+                             
                          } completion:^(BOOL finished) {
                              [_removeViews removeObject:v];
+                             if (_currentViews.count >= 3) {
+                                 UIView *rmView = [_currentViews lastObject];
+                                 [rmView removeFromSuperview];
+                                 [_currentViews removeLastObject];
+                             }
                              [_currentViews insertObject:v atIndex:0];
-                             UIView *rmView = [_currentViews lastObject];
-                             [rmView removeFromSuperview];
-                             [_currentViews removeLastObject];
                              
-                             if (_currentIndex > 0) {
-                                 _currentIndex --;
-                                 _loadedIndex --;
-                                 [weakself loadNextView];
+                             if (!undoHandler) {
                                  [weakself cardViewDefaultScale];
                              }
+                             
+//                             if (_currentIndex > 0) {
+//                                 _currentIndex --;
+//                                 _loadedIndex --;
+//                                 [weakself loadNextView];
+//                                 [weakself cardViewDefaultScale];
+//                             }
                          }];
         return;
     }
@@ -217,61 +227,18 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
                                      view.transform = CGAffineTransformMakeRotation(-1 * M_PI_4);
                                  }
                              }
-                             
-//                             if (direction == YSLDraggableDirectionRight) {
-//                                 view.center = CGPointMake((weakself.frame.size.width * 2), view.center.y);
-//                                 
-//                                 if (isAutomatic) {
-//                                     view.transform = CGAffineTransformMakeRotation(direction * M_PI_4);
-//                                 }
-//                             }
-//
-//                             if (direction == YSLDraggableDirectionDown) {
-//                                 view.center = CGPointMake(view.center.x, (weakself.frame.size.height * 1.5));
-//                             }
-                             
                              if (!undoHandler) {
                                  [weakself cardViewDefaultScale];
                              }
                          } completion:^(BOOL finished) {
                              if (!undoHandler) {
                                  [view removeFromSuperview];
-//                                 [_removeViews insertObject:view atIndex:0];
+                                 [_removeViews insertObject:view atIndex:0];
                              } else  {
                                  if (undoHandler) { undoHandler(); }
                              }
                          }];
     }
-    
-//    if (direction == YSLDraggableDirectionUp) {
-//        [UIView animateWithDuration:0.15
-//                              delay:0.0
-//                            options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
-//                         animations:^{
-//                             
-//                             if (direction == YSLDraggableDirectionUp) {
-//                                 if (isAutomatic) {
-//                                     view.transform = CGAffineTransformScale(CGAffineTransformIdentity,1.03,0.97);
-//                                     view.center = CGPointMake(view.center.x, view.center.y + kCard_Margin);
-//                                 }
-//                             }
-//                             
-//                         } completion:^(BOOL finished) {
-//                             [UIView animateWithDuration:0.35
-//                                                   delay:0.0
-//                                                 options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
-//                                              animations:^{
-//                                                  view.center = CGPointMake(view.center.x, -1 * ((weakself.frame.size.height) / 2));
-//                                                  [weakself cardViewDefaultScale];
-//                                              } completion:^(BOOL finished) {
-//                                                  if (!undoHandler) {
-//                                                      [view removeFromSuperview];
-//                                                  } else  {
-//                                                      if (undoHandler) { undoHandler(); }
-//                                                  }
-//                                              }];
-//                         }];
-//    }
 }
 
 - (void)cardViewUpDateScale

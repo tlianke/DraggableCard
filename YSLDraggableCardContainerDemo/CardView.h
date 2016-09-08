@@ -1,9 +1,9 @@
 //
 //  CardView.h
-//  YSLDraggingCardContainerDemo
+//  Crew-iOS
 //
-//  Created by yamaguchi on 2015/11/09.
-//  Copyright © 2015年 h.yamaguchi. All rights reserved.
+//  Created by tlian on 2016/09/08.
+//  Copyright © 2016年 tlian. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
