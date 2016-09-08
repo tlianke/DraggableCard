@@ -186,7 +186,7 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
                              
                          } completion:^(BOOL finished) {
                              [_removeViews removeObject:v];
-                             if (_currentViews.count >= 3) {
+                             if (_currentViews.count >= kPreloadViewCount) {
                                  UIView *rmView = [_currentViews lastObject];
                                  [rmView removeFromSuperview];
                                  [_currentViews removeLastObject];
@@ -196,7 +196,6 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
                              if (!undoHandler) {
                                  [weakself cardViewDefaultScale];
                              }
-                             
 //                             if (_currentIndex > 0) {
 //                                 _currentIndex --;
 //                                 _loadedIndex --;
