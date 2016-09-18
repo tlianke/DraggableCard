@@ -40,11 +40,11 @@
     _container.canDraggableDirection = YSLDraggableDirectionLeft | YSLDraggableDirectionRight | YSLDraggableDirectionUp;
     [self.view addSubview:_container];
     
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 2; i++) {
         
         UIView *view = [[UIView alloc]init];
         CGFloat size = self.view.frame.size.width / 4;
-        view.frame = CGRectMake(size * i, self.view.frame.size.height - 150, size, size);
+        view.frame = CGRectMake(size * i, self.view.frame.size.height - 100, size, size);
         view.backgroundColor = [UIColor clearColor];
         [self.view addSubview:view];
         
@@ -59,10 +59,8 @@
         [button addTarget:self action:@selector(buttonTap:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:button];
         
-        if (i == 0) { [button setTitle:@"Up" forState:UIControlStateNormal]; }
-        if (i == 1) { [button setTitle:@"Down" forState:UIControlStateNormal]; }
-        if (i == 2) { [button setTitle:@"Left" forState:UIControlStateNormal]; }
-        if (i == 3) { [button setTitle:@"Right" forState:UIControlStateNormal]; }
+        if (i == 0) { [button setTitle:@"Left" forState:UIControlStateNormal]; }
+        if (i == 1) { [button setTitle:@"Right" forState:UIControlStateNormal]; }
     }
     
     [self loadData];
@@ -84,32 +82,32 @@
 #pragma mark -- Selector
 - (void)buttonTap:(UIButton *)button
 {
+//    if (button.tag == 0) {
+//        [_container movePositionWithDirection:YSLDraggableDirectionUp isAutomatic:YES];
+//    }
+//    if (button.tag == 1) {
+//        __weak ViewController *weakself = self;
+//        [_container movePositionWithDirection:YSLDraggableDirectionDown isAutomatic:YES undoHandler:^{
+//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@""
+//                                                                                     message:@"Do you want to reset?"
+//                                                                              preferredStyle:UIAlertControllerStyleAlert];
+//            
+//            [alertController addAction:[UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                [weakself.container movePositionWithDirection:YSLDraggableDirectionDown isAutomatic:YES];
+//            }]];
+//            
+//            [alertController addAction:[UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+//                [weakself.container movePositionWithDirection:YSLDraggableDirectionDefault isAutomatic:YES];
+//            }]];
+//            
+//            [self presentViewController:alertController animated:YES completion:nil];
+//        }];
+//        
+//    }
     if (button.tag == 0) {
-        [_container movePositionWithDirection:YSLDraggableDirectionUp isAutomatic:YES];
-    }
-    if (button.tag == 1) {
-        __weak ViewController *weakself = self;
-        [_container movePositionWithDirection:YSLDraggableDirectionDown isAutomatic:YES undoHandler:^{
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@""
-                                                                                     message:@"Do you want to reset?"
-                                                                              preferredStyle:UIAlertControllerStyleAlert];
-            
-            [alertController addAction:[UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [weakself.container movePositionWithDirection:YSLDraggableDirectionDown isAutomatic:YES];
-            }]];
-            
-            [alertController addAction:[UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                [weakself.container movePositionWithDirection:YSLDraggableDirectionDefault isAutomatic:YES];
-            }]];
-            
-            [self presentViewController:alertController animated:YES completion:nil];
-        }];
-        
-    }
-    if (button.tag == 2) {
         [_container movePositionWithDirection:YSLDraggableDirectionLeft isAutomatic:YES];
     }
-    if (button.tag == 3) {
+    if (button.tag == 1) {
         [_container movePositionWithDirection:YSLDraggableDirectionRight isAutomatic:YES];
 //        [_container movePositionWithDirection:YSLDraggableDirectionDefault isAutomatic:YES];
     }
@@ -138,16 +136,16 @@
         [cardContainerView movePositionWithDirection:draggableDirection
                                          isAutomatic:NO];
     }
-    
-    if (draggableDirection == YSLDraggableDirectionRight) {
-        [cardContainerView movePositionWithDirection:draggableDirection
-                                         isAutomatic:NO];
-    }
-    
-    if (draggableDirection == YSLDraggableDirectionUp) {
-        [cardContainerView movePositionWithDirection:draggableDirection
-                                         isAutomatic:NO];
-    }
+//    
+//    if (draggableDirection == YSLDraggableDirectionRight) {
+//        [cardContainerView movePositionWithDirection:draggableDirection
+//                                         isAutomatic:NO];
+//    }
+//    
+//    if (draggableDirection == YSLDraggableDirectionUp) {
+//        [cardContainerView movePositionWithDirection:draggableDirection
+//                                         isAutomatic:NO];
+//    }
 }
 
 - (void)cardContainderView:(YSLDraggableCardContainer *)cardContainderView updatePositionWithDraggableView:(UIView *)draggableView draggableDirection:(YSLDraggableDirection)draggableDirection widthRatio:(CGFloat)widthRatio heightRatio:(CGFloat)heightRatio
@@ -159,19 +157,20 @@
     }
     
     if (draggableDirection == YSLDraggableDirectionLeft) {
-        view.selectedView.backgroundColor = RGB(215, 104, 91);
-        view.selectedView.alpha = widthRatio > 0.8 ? 0.8 : widthRatio;
+//        view.selectedView.backgroundColor = RGB(215, 104, 91);
+//        view.selectedView.alpha = widthRatio > 0.8 ? 0.8 : widthRatio;
+        view.selectedView.alpha = 0;
     }
     
-    if (draggableDirection == YSLDraggableDirectionRight) {
-        view.selectedView.backgroundColor = RGB(114, 209, 142);
-        view.selectedView.alpha = widthRatio > 0.8 ? 0.8 : widthRatio;
-    }
-    
-    if (draggableDirection == YSLDraggableDirectionUp) {
-        view.selectedView.backgroundColor = RGB(66, 172, 225);
-        view.selectedView.alpha = heightRatio > 0.8 ? 0.8 : heightRatio;
-    }
+//    if (draggableDirection == YSLDraggableDirectionRight) {
+//        view.selectedView.backgroundColor = RGB(114, 209, 142);
+//        view.selectedView.alpha = widthRatio > 0.8 ? 0.8 : widthRatio;
+//    }
+//    
+//    if (draggableDirection == YSLDraggableDirectionUp) {
+//        view.selectedView.backgroundColor = RGB(66, 172, 225);
+//        view.selectedView.alpha = heightRatio > 0.8 ? 0.8 : heightRatio;
+//    }
 }
 
 - (void)cardContainerViewDidCompleteAll:(YSLDraggableCardContainer *)container;

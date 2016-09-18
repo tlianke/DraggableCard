@@ -133,7 +133,6 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
                         }
                          _loadedIndex++;
                     }
-                    
                 }
             }
         }
@@ -196,6 +195,9 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
                              if (!undoHandler) {
                                  [weakself cardViewDefaultScale];
                              }
+                             _currentIndex --;
+                             _loadedIndex --;
+                             
 //                             if (_currentIndex > 0) {
 //                                 _currentIndex --;
 //                                 _loadedIndex --;
@@ -363,6 +365,7 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
         CGPoint touchPoint = [gesture locationInView:self];
+//        NSLog(@"touchPoint:[x:%f,y:%f]",touchPoint.x,touchPoint.y);
         if (touchPoint.y <= _cardCenterY) {
             _moveSlope = MoveSlopeTop;
         } else {
@@ -371,11 +374,11 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
     }
     
     if (gesture.state == UIGestureRecognizerStateChanged) {
-    
         CGPoint point = [gesture translationInView:self];
+//        NSLog(@"point:[x:%f,y:%f]",point.x,point.y);
+        
         CGPoint movedPoint = CGPointMake(gesture.view.center.x + point.x, gesture.view.center.y + point.y);
         gesture.view.center = movedPoint;
-        
         [gesture.view setTransform:
          CGAffineTransformMakeRotation((gesture.view.center.x - _cardCenterX) / _cardCenterX * (_moveSlope * (M_PI / 20)))];
         
@@ -391,21 +394,21 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
                 
                 if (fabs(ratio_h) > fabs(ratio_w)) {
                     
-//                    if (ratio_h <= 0) {
-//                        // up
-//                        if (_canDraggableDirection & YSLDraggableDirectionUp) {
-//                            direction = YSLDraggableDirectionUp;
-//                        } else {
-//                            direction = ratio_w <= 0 ? YSLDraggableDirectionLeft : YSLDraggableDirectionRight;
-//                        }
-//                    } else {
-//                        // down
-//                        if (_canDraggableDirection & YSLDraggableDirectionDown) {
-//                            direction = YSLDraggableDirectionDown;
-//                        } else {
-//                            direction = ratio_w <= 0 ? YSLDraggableDirectionLeft : YSLDraggableDirectionRight;
-//                        }
-//                    }
+                    if (ratio_h <= 0) {
+                        // up
+                        if (_canDraggableDirection & YSLDraggableDirectionUp) {
+                            direction = YSLDraggableDirectionDefault;
+                        } else {
+                            direction = ratio_w <= 0 ? YSLDraggableDirectionLeft : YSLDraggableDirectionDefault;
+                        }
+                    } else {
+                        // down
+                        if (_canDraggableDirection & YSLDraggableDirectionDown) {
+                            direction = YSLDraggableDirectionDefault;
+                        } else {
+                            direction = ratio_w <= 0 ? YSLDraggableDirectionLeft : YSLDraggableDirectionDefault;
+                        }
+                    }
                     
                 } else {
                     if (ratio_w <= 0) {
@@ -413,14 +416,14 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
                         if (_canDraggableDirection & YSLDraggableDirectionLeft) {
                             direction = YSLDraggableDirectionLeft;
                         } else {
-                            direction = ratio_h <= 0 ? YSLDraggableDirectionUp : YSLDraggableDirectionDown;
+                            direction = ratio_h <= 0 ? YSLDraggableDirectionDefault : YSLDraggableDirectionDefault;
                         }
                     } else {
                         // right
                         if (_canDraggableDirection & YSLDraggableDirectionRight) {
-                            direction = YSLDraggableDirectionRight;
+                            direction = YSLDraggableDirectionDefault;
                         } else {
-                            direction = ratio_h <= 0 ? YSLDraggableDirectionUp : YSLDraggableDirectionDown;
+                            direction = ratio_h <= 0 ? YSLDraggableDirectionDefault : YSLDraggableDirectionDefault;
                         }
                     }
                     
@@ -445,19 +448,19 @@ typedef NS_ENUM(NSInteger, MoveSlope) {
         if (fabs(ratio_h) > fabs(ratio_w)) {
             if (ratio_h < - kDragCompleteCoefficient_height_default && (_canDraggableDirection & YSLDraggableDirectionUp)) {
                 // up
-                direction = YSLDraggableDirectionUp;
+                direction = YSLDraggableDirectionDefault;
             }
             
             if (ratio_h > kDragCompleteCoefficient_height_default && (_canDraggableDirection & YSLDraggableDirectionDown)) {
                 // down
-                direction = YSLDraggableDirectionDown;
+                direction = YSLDraggableDirectionDefault;
             }
             
         } else {
             
             if (ratio_w > kDragCompleteCoefficient_width_default && (_canDraggableDirection & YSLDraggableDirectionRight)) {
                 // right
-                direction = YSLDraggableDirectionRight;
+                direction = YSLDraggableDirectionDefault;
             }
             
             if (ratio_w < - kDragCompleteCoefficient_width_default && (_canDraggableDirection & YSLDraggableDirectionLeft)) {

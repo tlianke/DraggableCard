@@ -1,11 +1,6 @@
 # YSLDraggableCardContainer
 
 ## Demo
-#### Dragging Animation
-![Dome](https://raw.githubusercontent.com/y-hryk/YSLDraggingCardContainer/master/sample1.gif)
-![Dome](https://raw.githubusercontent.com/y-hryk/YSLDraggingCardContainer/master/sample2.gif)
-#### Undo Animation
-![Dome](https://raw.githubusercontent.com/y-hryk/YSLDraggingCardContainer/master/sample3.gif)
 ## Requirement
 not support landscape
 
@@ -82,11 +77,6 @@ iOS 7.0 or later
         [cardContainerView movePositionWithDirection:draggableDirection
                                          isAutomatic:NO];
     }
-    
-    if (draggableDirection == YSLDraggableDirectionRight) {
-        [cardContainerView movePositionWithDirection:draggableDirection
-                                         isAutomatic:NO];
-    }
 }
 
 - (void)cardContainderView:(YSLDraggableCardContainer *)cardContainderView updatePositionWithDraggableView:(UIView *)draggableView draggableDirection:(YSLDraggableDirection)draggableDirection widthRatio:(CGFloat)widthRatio heightRatio:(CGFloat)heightRatio
@@ -101,11 +91,6 @@ iOS 7.0 or later
         view.selectedView.backgroundColor = RGB(215, 104, 91);
         view.selectedView.alpha = widthRatio > 0.8 ? 0.8 : widthRatio;
     }
-    
-    if (draggableDirection == YSLDraggableDirectionRight) {
-        view.selectedView.backgroundColor = RGB(114, 209, 142);
-        view.selectedView.alpha = widthRatio > 0.8 ? 0.8 : widthRatio;
-    }
 }
 
 - (void)cardContainerViewDidCompleteAll:(YSLDraggableCardContainer *)container;
@@ -118,32 +103,7 @@ iOS 7.0 or later
     NSLog(@"++ Tap card index : %ld",(long)index);
 }
 ```
-#### Undo
-``` objective-c
-- (void)buttonTap:(UIButton *)button
-{
-    __weak ViewController *weakself = self;
-    [_container movePositionWithDirection:YSLDraggableDirectionDown isAutomatic:YES undoHandler:^{
-       UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@""
-                                                                                message:@"Do you want to reset?"
-                                                                         preferredStyle:UIAlertControllerStyleAlert];
-            
-       [alertController addAction:[UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [weakself.container movePositionWithDirection:YSLDraggableDirectionDown isAutomatic:YES];
-       }]];
-            
-       [alertController addAction:[UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            [weakself.container movePositionWithDirection:YSLDraggableDirectionDefault isAutomatic:YES];
-       }]];
-            [self presentViewController:alertController animated:YES completion:nil];
-    }];
-}
-
 ```
 ## Licence
 MIT
 
-## Other Library
-- [YSLContainerViewController](https://github.com/y-hryk/YSLContainerViewController)
-- [YSLTransitionAnimator](https://github.com/y-hryk/YSLTransitionAnimator)
-- [YSLGoogleSuggestView](https://github.com/y-hryk/YSLGoogleSuggestView)
